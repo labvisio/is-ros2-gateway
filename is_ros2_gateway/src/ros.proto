@@ -1,0 +1,10 @@
+
+syntax = "proto3";
+
+package is.ros;
+import "google/protobuf/struct.proto";
+
+message ROSMessage {
+    string type = 1;
+    google.protobuf.Struct content = 2;
+}
