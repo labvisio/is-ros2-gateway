@@ -52,7 +52,7 @@ class RosSubscribers(Node):
                 self.subscribers[topic].unregister()
 
     def get_topic_type(self, topic_name):
-        topics = self.self.get_topic_names_and_types()    
+        topics = self.get_topic_names_and_types()    
         for topic in topics:
             if topic[0] == topic_name:
                 return topic
