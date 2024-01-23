@@ -33,7 +33,7 @@ class RosSubscribers(Node):
         with self.lock:
             if topic not in self.subscribers:
 
-                topic_type = get_topic_type(topic)
+                topic_type = self.get_topic_type(topic)
                 if not topic_type:
                     raise RuntimeError(
                         "Trying to subscribe to invalid topic " + topic)
