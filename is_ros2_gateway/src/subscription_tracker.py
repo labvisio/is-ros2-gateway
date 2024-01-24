@@ -20,7 +20,7 @@ class SubscriptionTracker(object):
         deleted = self._topics - new_topics
 
         self.on_new_subscription([topic_is_to_ros(t) for t in added])
-        self.on_del_subscription([topic_is_to_ros(t) for t in deleted])
+        #self.on_del_subscription([topic_is_to_ros(t) for t in deleted])
         self._topics = new_topics
 
     def run(self, message):

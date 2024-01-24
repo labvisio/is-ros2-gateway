@@ -2,9 +2,9 @@ import rclpy as ros
 from rclpy.node import Node
 
 from rosbridge_library.internal.ros_loader import get_message_class
-from conversions import proto_to_rosmsg
-from ros_pb2 import ROSMessage
 
+from conversions import proto_to_rosmsg, topic_is_to_ros
+from ros_pb2 import ROSMessage
 
 class RosPublishers(Node):
     def __init__(self, subscription):
@@ -14,6 +14,7 @@ class RosPublishers(Node):
         self.types = {}
 
     def get(self, topic, msgtype):
+        topic = topic_is_to_ros(topic)
         if topic not in self.pub:
             self.pub[topic] = self.create_publisher(
                                                     msgtype, 
@@ -27,9 +28,12 @@ class RosPublishers(Node):
 
     def run(self, message):
         if message.topic.startswith("ros."):
-            ros_message = message.unpack(ROSMessage)
-            ros_type = get_message_class(ros_message.type)
-            ros_topic = message.topic[4:]
-            self.get(ros_topic, ros_type).publish(
-                proto_to_rosmsg(ros_message.content, ros_type)
-                )
+            try:
+                ros_message = message.unpack(ROSMessage) 
+                ros_type = get_message_class(ros_message.type)
+                ros_topic = message.topic
+                self.get(ros_topic, ros_type).publish(
+                    proto_to_rosmsg(ros_message.content, ros_type)
+                    )
+            except:
+                self.get_logger().info("Invalid topic to unpack " + message.topic) 

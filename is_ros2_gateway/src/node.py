@@ -1,27 +1,23 @@
 from __future__ import print_function
+import threading
 
 import rclpy as ros
 from rclpy.executors import SingleThreadedExecutor
-
 from is_wire.core import Channel, Message, Subscription, Logger
 
-#from is_bridge_lib import RosPublishers, RosSubscribers, SubscriptionTracker
 from ros_publishers import RosPublishers
 from ros_subscribers import RosSubscribers
 from subscription_tracker import SubscriptionTracker
-
-import threading
 
 def ros_thread():
     executor.spin()
 
 def main(args=None):
     ros.init(args=args)
-    uri = "amqp://guest:guest@localhost:5672"
+    uri = "amqp://10.10.2.211:30000"
     in_channel = Channel(uri)
     out_channel = Channel(uri)
-    subscription = Subscription(in_channel)
-    
+    subscription = Subscription(in_channel)    
     publishers = RosPublishers(subscription)
     subscribers = RosSubscribers(out_channel)
 

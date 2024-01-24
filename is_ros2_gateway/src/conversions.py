@@ -1,9 +1,10 @@
-from google.protobuf.struct_pb2 import Struct
-from rosbridge_library.internal.message_conversion import extract_values, populate_instance
-from google.protobuf.json_format import MessageToDict
 import numbers
-import collections
+import collections.abc as collections
 
+from google.protobuf.struct_pb2 import Struct
+from google.protobuf.json_format import MessageToDict
+
+from rosbridge_library.internal.message_conversion import extract_values, populate_instance
 
 def topic_is_to_ros(topic):
     return topic[3:].replace(".", "/")
