@@ -5,19 +5,21 @@ import rclpy as ros
 from rclpy.executors import SingleThreadedExecutor
 from is_wire.core import Channel, Message, Subscription, Logger
 
-from ros_publishers import RosPublishers
-from ros_subscribers import RosSubscribers
-from subscription_tracker import SubscriptionTracker
+from is_ros2_gateway.ros_publishers import RosPublishers
+from is_ros2_gateway.ros_subscribers import RosSubscribers
+from is_ros2_gateway.subscription_tracker import SubscriptionTracker
+
 
 def ros_thread():
     executor.spin()
 
+
 def main(args=None):
     ros.init(args=args)
-    uri = "amqp://10.10.2.211:30000"
+    uri = "amqp://10.20.5.2:30000"
     in_channel = Channel(uri)
     out_channel = Channel(uri)
-    subscription = Subscription(in_channel)    
+    subscription = Subscription(in_channel)
     publishers = RosPublishers(subscription)
     subscribers = RosSubscribers(out_channel)
 
@@ -30,7 +32,6 @@ def main(args=None):
     tracker.on_del_subscription = subscribers.on_del_subscription
     tracker.on_new_subscription = subscribers.on_new_subscription
 
-    
     thread = threading.Thread(target=ros_thread)
     thread.start()
 
@@ -42,5 +43,6 @@ def main(args=None):
         tracker.run(message)
         publishers.run(message)
 
-if __name__ == '__main__':
-    main()            
+
+if __name__ == "__main__":
+    main()

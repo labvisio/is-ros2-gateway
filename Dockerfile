@@ -16,3 +16,5 @@ RUN pip3 install is-msgs==1.1.10 \
     &&   pip3 install numpy==1.21.6 \
     &&   pip3 install vine==1.3.0 \
     && pip3 install --upgrade protobuf==3.20.0 
+
+Workdir /ros2_ws    
