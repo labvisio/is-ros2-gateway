@@ -1,5 +1,6 @@
 from __future__ import print_function
 import threading
+import argparse
 
 import rclpy as ros
 from rclpy.executors import SingleThreadedExecutor
@@ -16,7 +17,16 @@ def ros_thread():
 
 def main(args=None):
     ros.init(args=args)
-    uri = "amqp://10.20.5.2:30000"
+
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description="ROS 2 Gateway")
+    parser.add_argument(
+        "--uri", type=str, required=True, help="URI for the AMQP server"
+    )
+    parsed_args = parser.parse_args(args=args)
+
+    uri = parsed_args.uri  # Get URI from command-line argument
+
     in_channel = Channel(uri)
     out_channel = Channel(uri)
     subscription = Subscription(in_channel)
