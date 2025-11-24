@@ -13,3 +13,7 @@ source install/setup.bash
 ```
 ros2 run is_ros2_gateway is_ros2_gateway --uri amqp://10.20.5.2:30000
 ```
+
+```
+export FASTDDS_BUILTIN_TRANSPORTS=UDPv4
+```
